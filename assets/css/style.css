@@ -336,3 +336,36 @@ footer {
 .footer-logo img {
   width: 100px;
 }
+
+@media (max-width: 700px) {
+  .footer-links,
+  .footer-links ul,
+  .footer-content,
+  .footer-social ul {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 550px) {
+  footer {
+    padding: 1rem;
+  }
+
+  footer ul li a,
+  .footer-copyrights p {
+    font-size: 0.75rem;
+  }
+  .contact-link h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .footer-logo img {
+    width: 75px;
+  }
+
+  .contact-link h3 {
+    font-size: 0.75rem;
+  }
+}
