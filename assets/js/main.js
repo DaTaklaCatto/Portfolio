@@ -5,3 +5,9 @@ setInterval(() => {
   let ampm = now.getUTCHours() >= 12 ? "PM" : "AM";
   document.getElementById("clock").innerText = `${h}:${m} ${ampm}`;
 }, 1000);
+
+const menuButton = document.getElementById("menu-button");
+const menu = document.getElementById("mobile-menu");
+menuButton.addEventListener("click", () => {
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+});

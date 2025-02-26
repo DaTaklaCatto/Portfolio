@@ -1,9 +1,9 @@
 :root {
   --text: #150809;
   --background: #fbf4f4;
-  --primary: #72739a;
+  --primary: #6d6d6d;
   --secondary: #abadc7;
-  --accent: #8e8eba;
+  --accent: #979797;
   --gap: 3rem;
 }
 
@@ -116,6 +116,27 @@ nav a,
   text-align: center;
 }
 
+#mobile-menu {
+  position: absolute;
+  background: var(--background);
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  display: none;
+}
+
+#mobile-menu a {
+  font-size: 5rem;
+  color: var(--text);
+  text-transform: uppercase;
+  font-family: Raleway;
+  font-weight: 900;
+}
+
 @media (max-width: 800px) {
   .navigation,
   .cta {
@@ -138,7 +159,7 @@ nav a,
 }
 
 #hero {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   justify-content: start;
   align-items: end;
@@ -287,5 +308,31 @@ nav a,
 }
 
 footer {
-  background: red;
+  /* background: red; */
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5rem;
+}
+
+.footer-links,
+.footer-links ul,
+.footer-content,
+.footer-social ul {
+  display: flex;
+  gap: 3rem;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.footer-logo img {
+  width: 100px;
 }
