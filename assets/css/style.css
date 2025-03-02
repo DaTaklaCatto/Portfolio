@@ -373,3 +373,15 @@ footer {
     font-size: 0.75rem;
   }
 }
+
+#work {
+  padding: 4rem;
+}
+
+.work-container {
+  display: flex;
+}
+
+.card {
+  background: red;
+}
