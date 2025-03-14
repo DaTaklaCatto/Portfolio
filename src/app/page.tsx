@@ -18,7 +18,7 @@ export default function Home() {
       <div className="hero-functions">
         <div className="hero-timezone">
           <p>Dhaka, Bangladesh</p>
-          <p>{}</p>
+          {/* <p>{}</p> */}
         </div>
       </div>
     </section>
