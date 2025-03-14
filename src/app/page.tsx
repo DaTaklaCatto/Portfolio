@@ -6,9 +6,9 @@ export default function Home() {
     <section className="hero" id="hero">
       <div className="hero-content">
         <div className="hero-description">
-          <p>/// Programmer</p>
-          <p>/// UX / UI Developer</p>
-          <p>/// Designer</p>
+          <p>&#47;&#47;&#47; Programmer</p>
+          <p>&#47;&#47;&#47; UX &#47; UI Developer</p>
+          <p>&#47;&#47;&#47; Designer</p>
         </div>
         <h1>
           Nadid <br />
