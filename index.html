@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -22,59 +23,26 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
-    <!-- <header>
-      <div class="logo">
-        <a href="#">
-          <img src="assets/images/logos/logo.wide.svg" alt="" />
-        </a>
-      </div>
-      <div class="navigation">
-        <nav>
-          <a href="#">About</a>
-          <a href="#">Work</a>
-          <a href="#">Resume</a>
-        </nav>
-      </div>
-      <div class="cta">
-        <a href="/contact-me/">Get In Touch</a>
-      </div>
-      <nav id="mobile-menu" class="hidden">
-        <a href="#">About</a>
-        <a href="#">Work</a>
-        <a href="#">Resume</a>
-      </nav>
-
-      <div class="mobile">
-        <button id="menu-button">
-          <i class="nmi-menu"></i>
-        </button>
-      </div>
-    </header> -->
-
     <header class="header">
       <div class="container is--full">
         <nav class="nav-row">
           <a href="#" aria-label="home" class="nav-logo-row w-inline-block">
-            <img src="assets/images/logos/LOGO.SDT.svg  " alt="" height="100" />
+            <!-- <img src="assets/images/logos/LOGO.SDT.svg  " alt="" height="100" /> -->
+            <svg width="100" height="100" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-logo">
+              <path class="logo-path" d="M307.001 292L400 292L692.636 708.926L535.001 708.926L307 382.5L307.001 292Z" fill="#FAFAFA" />
+              <path class="logo-path" d="M500 292.5H661L692.5 338.5V446H610L500 292.5Z" fill="#FAFAFA" />
+              <path class="logo-path" d="M419 651.5V708H328.5L308 679V492.5L419 651.5Z" fill="#FAFAFA" />
+            </svg>
           </a>
           <div class="nav-row__right">
             <button role="button" data-menu-toggle="" class="menu-button">
               <div class="menu-button-text">
-                <p class="p-large cursor-scale small">MENU</p>
-                <p class="p-large cursor-scale small">CLOSE</p>
+                <p class="p-large cursor-scale small menu-text">MENU</p>
+                <p class="p-large cursor-scale small close-text">CLOSE</p>
               </div>
               <div class="icon-wrap">
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewbox="0 0 16 16" fill="none" class="menu-button-icon">
-                  <path d="M7.33333 16L7.33333 -3.2055e-07L8.66667 -3.78832e-07L8.66667 16L7.33333 16Z" fill="currentColor"></path>
-                  <path d="M16 8.66667L-2.62269e-07 8.66667L-3.78832e-07 7.33333L16 7.33333L16 8.66667Z" fill="currentColor"></path>
-                  <path d="M6 7.33333L7.33333 7.33333L7.33333 6C7.33333 6.73637 6.73638 7.33333 6 7.33333Z" fill="currentColor"></path>
-                  <path d="M10 7.33333L8.66667 7.33333L8.66667 6C8.66667 6.73638 9.26362 7.33333 10 7.33333Z" fill="currentColor"></path>
-                  <path d="M6 8.66667L7.33333 8.66667L7.33333 10C7.33333 9.26362 6.73638 8.66667 6 8.66667Z" fill="currentColor"></path>
-                  <path d="M10 8.66667L8.66667 8.66667L8.66667 10C8.66667 9.26362 9.26362 8.66667 10 8.66667Z" fill="currentColor"></path>
-                </svg> -->
-
                 <svg width="59" height="13" viewBox="0 0 59 13" fill="none" xmlns="http://www.w3.org/2000/svg" class="menu-button-icon">
-                  <path d="M0 1.5H59M0 11.5H59" stroke="black" stroke-width="2" />
+                  <path class="menu-stroke" d="M0 1.5H59M0 11.5H59" stroke="black" stroke-width="2" />
                 </svg>
               </div>
             </button>
@@ -169,7 +137,6 @@
     </section>
 
     <section class="about" id="about">
-      <div class="about-img"></div>
       <div class="about-content">
         <div class="about-description">
           <h1 class="about-title">About<br />Me</h1>

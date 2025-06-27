@@ -374,6 +374,11 @@ Menu Styles
   height: 1.5em;
 }
 
+.nav-logo {
+  width: 100px;
+  height: 100px;
+}
+
 .container {
   z-index: 1;
   padding-left: var(--container-padding);
