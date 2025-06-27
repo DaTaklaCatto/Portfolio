@@ -147,7 +147,7 @@ p {
   }
 }
 
-#about {
+/* #about {
   height: 100dvh;
   display: flex;
 }
@@ -225,7 +225,7 @@ p {
   #about a {
     font-size: 0.75rem;
   }
-}
+} */
 
 footer {
   /* background: red; */
