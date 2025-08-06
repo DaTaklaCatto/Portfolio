@@ -36,6 +36,8 @@ function initMenu() {
 
   const openNav = () => {
     navWrap.setAttribute("data-nav", "open");
+    const header = document.querySelector(".header");
+    if (header) header.classList.add("active");
 
     tl.clear()
       .set(navWrap, { display: "block" })
@@ -50,6 +52,8 @@ function initMenu() {
 
   const closeNav = () => {
     navWrap.setAttribute("data-nav", "closed");
+    const header = document.querySelector(".header");
+    if (header) header.classList.remove("active");
 
     tl.clear()
       .to(overlay, { autoAlpha: 0 })
@@ -80,69 +84,7 @@ function initMenu() {
 }
 
 function initScrollTrigger() {
-  ScrollTrigger.create({
-    trigger: "#hero",
-    start: "top top",
-    end: "90% top",
-    onEnter: () => {
-      gsap.to(".nav-logo", { color: "black", fill: "black" });
-    },
-    onLeaveBack: () => {
-      gsap.to(".nav-logo", { color: "white", fill: "white" });
-    },
-  });
-
-  gsap.to(".logo-path", {
-    scrollTrigger: {
-      trigger: "#hero",
-      start: "top top",
-      end: "90% top",
-      scrub: true,
-      onUpdate: (self) => {
-        if (self.progress >= 0.9) {
-          gsap.to(".logo-path", {
-            fill: "#000000", // Change to whatever color you want
-            duration: 0.3,
-          });
-        } else {
-          gsap.to(".logo-path", {
-            fill: "#FAFAFA",
-            duration: 0.3,
-          });
-        }
-      },
-    },
-  });
-
-  gsap.to([".menu-text", ".close-text", ".menu-stroke"], {
-    scrollTrigger: {
-      trigger: "#hero",
-      start: "top top",
-      end: "90% top",
-      scrub: true,
-      onUpdate: (self) => {
-        if (self.progress >= 0.9) {
-          gsap.to(".menu-text, .close-text", {
-            color: "#000000",
-            duration: 0.3,
-          });
-          gsap.to(".menu-stroke", {
-            stroke: "#000000",
-            duration: 0.3,
-          });
-        } else {
-          gsap.to(".menu-text, .close-text", {
-            color: "#FAFAFA",
-            duration: 0.3,
-          });
-          gsap.to(".menu-stroke", {
-            stroke: "#FAFAFA",
-            duration: 0.3,
-          });
-        }
-      },
-    },
-  });
+  // Removed all ScrollTrigger color/fill/stroke effects on scroll as requested.
 }
 
 document.addEventListener("DOMContentLoaded", () => {
