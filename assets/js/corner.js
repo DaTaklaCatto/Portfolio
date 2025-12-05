@@ -171,42 +171,9 @@ class CutCornerSVG extends HTMLElement {
       }
     </style>
     <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" class="svg-container">
-    ${
-      this.getAttribute("filter")
-        ? `
       <path></path>
-      <foreignObject x="0" y="0" width="100%" height="100%">
-            <div xmlns="http://www.w3.org/1999/xhtml"
-            style="backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);clip-path:url(#customPathClip);height:100%;width:100%">
-            </div>
-          </foreignObject>
-          <defs>
-            <clipPath id="customPathClip">
-            <path></path>
-            </clipPath>
-          </defs>
-      `
-        : this.hasAttribute("image")
-        ? `
-        <path></path>
-        <pattern id="${this.getAttribute("id")}-pattern" patternUnits="userSpaceOnUse" width="100%" height="100%">
-           <image href="${this.getAttribute("image")}" x="0" y="0" width="100%" height="100%" preserveAspectRatio="${
-            this.getAttribute("image-position") === "tl"
-              ? "xMidYMin slice"
-              : this.getAttribute("image-position") === "tr"
-              ? "xMaxYMin slice"
-              : this.getAttribute("image-position") === "bl"
-              ? "xMinYMax slice"
-              : this.getAttribute("image-position") === "br"
-              ? "xMaxYMax slice"
-              : "xMidYMid slice"
-          }" />
-           ${this.getAttribute("overlay") && `<rect x="0" y="0" width="100%" height="100%" fill="black" opacity="${this.getAttribute("overlay")}" />`}
-        </pattern>
-        </pattern>
-        `
-        : `<path></path>`
-    }
+      <defs></defs>
+      <clipPath id="customPathClip"><path></path></clipPath>
     </svg>
     `;
 
@@ -215,8 +182,10 @@ class CutCornerSVG extends HTMLElement {
     // Cache elements for quick access
     this.svgContainer = this.shadowRoot.querySelector(".svg-container");
     this.svg = this.shadowRoot.querySelector("svg");
+    // first path is the visible shape
     this.path = this.shadowRoot.querySelectorAll("path")[0];
-    this.getAttribute("filter") && (this.clipPath = this.shadowRoot.querySelectorAll("path")[1]);
+    // second path (if present) lives inside the clipPath
+    this.clipPath = this.shadowRoot.querySelectorAll("path")[1] || null;
     this.content = this.shadowRoot.querySelector(".content");
 
     // Set initial path attributes
@@ -256,8 +225,21 @@ class CutCornerSVG extends HTMLElement {
   }
 
   checkAndUpdateSize() {
-    const width = this.offsetWidth;
-    const height = this.offsetHeight;
+    // Try to read the host size first
+    let width = this.offsetWidth;
+    let height = this.offsetHeight;
+
+    // If host reports 0 (collapsed containers on mobile), fall back to parent's bounding rect
+    if ((width === 0 || height === 0) && this.parentElement) {
+      try {
+        const rect = this.parentElement.getBoundingClientRect();
+        // Only use parent values if they are > 0
+        if (width === 0 && rect.width > 0) width = Math.ceil(rect.width);
+        if (height === 0 && rect.height > 0) height = Math.ceil(rect.height);
+      } catch (e) {
+        // ignore and proceed
+      }
+    }
 
     if (width > 0 && height > 0) {
       this._width = width;
@@ -325,13 +307,73 @@ class CutCornerSVG extends HTMLElement {
       this.path.setAttribute("d", pathData);
       this.getAttribute("filter") && this.clipPath.setAttribute("d", pathData);
 
+      // IMAGE / PATTERN HANDLING
+      const defs = this.svg.querySelector("defs");
+
+      // Ensure the element has a stable id for pattern references
+      let elemId = this.getAttribute("id");
+      if (!elemId) {
+        elemId = `wm-shape-${Math.random().toString(36).slice(2, 9)}`;
+        this.setAttribute("id", elemId);
+      }
+
+      const patternId = `${elemId}-pattern`;
+
       if (this.hasAttribute("image")) {
-        const image = new Image();
-        image.src = this.getAttribute("image");
-        image.onload = () => {
-          this.path.setAttribute("fill", `url(#${this.getAttribute("id")}-pattern)`);
-        };
+        // Remove any existing pattern with same id (clean rebuild)
+        const oldPattern = defs.querySelector(`#${patternId}`);
+        if (oldPattern) defs.removeChild(oldPattern);
+
+        const pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+        pattern.setAttribute("id", patternId);
+        pattern.setAttribute("patternUnits", "userSpaceOnUse");
+        pattern.setAttribute("width", Math.max(1, Math.round(this._width)));
+        pattern.setAttribute("height", Math.max(1, Math.round(this._height)));
+
+        const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+        img.setAttribute("href", this.getAttribute("image"));
+        img.setAttribute("x", "0");
+        img.setAttribute("y", "0");
+        img.setAttribute("width", Math.max(1, Math.round(this._width)));
+        img.setAttribute("height", Math.max(1, Math.round(this._height)));
+
+        const pos = this.getAttribute("image-position");
+        const preserve =
+          pos === "tl"
+            ? "xMidYMin slice"
+            : pos === "tr"
+            ? "xMaxYMin slice"
+            : pos === "bl"
+            ? "xMinYMax slice"
+            : pos === "br"
+            ? "xMaxYMax slice"
+            : "xMidYMid slice";
+        img.setAttribute("preserveAspectRatio", preserve);
+
+        // append image first
+        pattern.appendChild(img);
+
+        // optional overlay on top of image (a translucent rect)
+        if (this.getAttribute("overlay")) {
+          const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          rect.setAttribute("x", "0");
+          rect.setAttribute("y", "0");
+          rect.setAttribute("width", Math.max(1, Math.round(this._width)));
+          rect.setAttribute("height", Math.max(1, Math.round(this._height)));
+          rect.setAttribute("fill", "black");
+          rect.setAttribute("opacity", String(this.getAttribute("overlay")));
+          pattern.appendChild(rect);
+        }
+
+        defs.appendChild(pattern);
+
+        // apply fill to the path immediately (browser will fetch the image)
+        this.path.setAttribute("fill", `url(#${patternId})`);
       } else {
+        // No image: remove any existing pattern for this element
+        const oldPattern = defs.querySelector(`#${patternId}`);
+        if (oldPattern) defs.removeChild(oldPattern);
+
         // Set fill color from attribute, default to black
         this.path.setAttribute("fill", this.getAttribute("fill") || "#000");
       }

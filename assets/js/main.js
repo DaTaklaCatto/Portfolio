@@ -87,6 +87,43 @@ function initScrollTrigger() {
   // Removed all ScrollTrigger color/fill/stroke effects on scroll as requested.
 }
 
+function projectCards() {
+  const cardsWrappers = gsap.utils.toArray(".card-wrapper");
+  const cards = gsap.utils.toArray(".card");
+
+  cardsWrappers.forEach((wrapper, i) => {
+    const card = cards[i];
+    let scale = 1,
+      rotation = 0;
+    if (i !== cards.length - 1) {
+      scale = 0.9 + 0.025 * i;
+      rotation = -10;
+    }
+    gsap.to(card, {
+      scale: scale,
+      rotationX: rotation,
+      transformOrigin: "top center",
+      ease: "none",
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top " + (60 + 10 * i),
+        end: "bottom 550",
+        endTrigger: ".wrapper",
+        scrub: true,
+        pin: wrapper,
+        pinSpacing: false,
+        // markers: {
+        //   indent: 100 * i,
+        //   startColor: "#0ae448",
+        //   endColor: "#fec5fb",
+        //   fontSize: "14px",
+        // },
+        id: i + 1,
+      },
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
     let now = new Date(new Date().getTime() + 6 * 3600000);
@@ -95,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let ampm = now.getUTCHours() >= 12 ? "PM" : "AM";
     document.getElementById("clock").innerText = `${h}:${m} ${ampm}`;
   }, 1000);
+  console.clear();
   initMenu();
   initScrollTrigger();
+  projectCards();
 });
